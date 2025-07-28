@@ -7,7 +7,9 @@ const allAnchors=document.querySelectorAll('a')
 
 const router={
     "/login":login,
-    "/register":register
+    "/register":register,
+    "/": () => "",
+    "/index.html": () => "",
 }
 
 function handleClick(e){
@@ -25,6 +27,18 @@ function handleClick(e){
     root.innerHTML=router[path]()
 }
 
+
 allAnchors.forEach((anchor)=>{
     anchor.addEventListener("click",handleClick)
+    
+})
+
+window.addEventListener('popstate',(e)=>{
+    let path=location.pathname;
+    if(path=="/index.html"){
+        root.innerHTML=""
+    }
+    else{
+        root.innerHTML=router[path]()
+    }
 })
