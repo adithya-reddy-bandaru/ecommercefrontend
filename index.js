@@ -1,15 +1,16 @@
-import login from "./login.js";
-import register from "./register.js";
-
+import login,{handelLoginBind} from "./login.js";
+import register,{handelRegisterBind} from "./register.js";
+import home from "./home.js";
 
 const root=document.getElementById('root')
 const allAnchors=document.querySelectorAll('a')
 
 const router={
-    "/login":login,
-    "/register":register,
+    "/login":[login,handelLoginBind],
+    "/register":[register,handelRegisterBind],
     "/": () => "",
     "/index.html": () => "",
+    "/home":[home]
 }
 
 function handleClick(e){
@@ -24,7 +25,10 @@ function handleClick(e){
     //     root.innerHTML=register()
     // }
 
-    root.innerHTML=router[path]()
+    root.innerHTML=router[path][0]()
+    if(router[path][1]){
+    router[path][1]()
+}
 }
 
 
@@ -39,6 +43,17 @@ window.addEventListener('popstate',(e)=>{
         root.innerHTML=""
     }
     else{
-        root.innerHTML=router[path]()
+        root.innerHTML=router[path][0]()
+         if( router[path][1]){
+            router[path][1]()
+        }
     }
 })
+
+
+
+
+
+
+
+
